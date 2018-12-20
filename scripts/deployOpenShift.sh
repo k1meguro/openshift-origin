@@ -51,6 +51,9 @@ sed -i -e "s/^#pty=False/pty=False/" /etc/ansible/ansible.cfg
 sed -i -e "s/^#stdout_callback = skippy/stdout_callback = skippy/" /etc/ansible/ansible.cfg
 
 # Cloning Ansible playbook repository
+if [ -d /home/${SUDOUSER}/openshift-container-platform-playbooks ]; then
+  rm -rf /home/${SUDOUSER}/openshift-container-platform-playbooks
+fi
 ((cd /home/$SUDOUSER && git clone https://github.com/Microsoft/openshift-container-platform-playbooks.git) || (cd openshift-container-platform-playbooks && git pull))
 if [ -d /home/${SUDOUSER}/openshift-container-platform-playbooks ]
 then
