@@ -51,7 +51,9 @@ sed -i -e "s/^#pty=False/pty=False/" /etc/ansible/ansible.cfg
 sed -i -e "s/^#stdout_callback = skippy/stdout_callback = skippy/" /etc/ansible/ansible.cfg
 
 # Cloning Ansible playbook repository
-if [ -d /home/${SUDOUSER}/openshift-container-platform-playbooks ]; then
+if [ -d /home/${SUDOUSER}/openshift-container-platform-playbooks ]
+then
+  echo "Repository already exist"
   rm -rf /home/${SUDOUSER}/openshift-container-platform-playbooks
 fi
 ((cd /home/$SUDOUSER && git clone https://github.com/Microsoft/openshift-container-platform-playbooks.git) || (cd openshift-container-platform-playbooks && git pull))
@@ -77,11 +79,11 @@ cat > updateansiblecfg.yaml <<EOF
       insertafter: '#library        = /usr/share/my_modules/'
       line: 'library = /home/${SUDOUSER}/openshift-ansible/roles/lib_utils/library/'
   - lineinfile:
-      dest: /home/okdadmin/test/ansible.cfg
+      dest: /etc/ansible/ansible.cfg
       regexp: '^# gather_timeout'
       line: 'gather_timeout = 120'
   - lineinfile:
-      dest: /home/okdadmin/test/ansible.cfg
+      dest: /etc/ansible/ansible.cfg
       regexp: '^#timeout'
       line: 'timeout = 120'	  
 EOF
